@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "319411616821",
+    "project_id": "library-app-f8365",
+    "storage_bucket": "library-app-f8365.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319411616821:android:19f8e64c3d93c82ef1057c",
+        "android_client_info": {
+          "package_name": "com.example.library_management_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319411616821-6ahf133tbbt1i9dh94763gndm5loga22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-zxzgPyJZzxXC7ah9Jy0TeYUjW9h3h6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319411616821-6ahf133tbbt1i9dh94763gndm5loga22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
