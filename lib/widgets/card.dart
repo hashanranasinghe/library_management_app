@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:library_management_app/api/constant.dart';
 
 class CardView extends StatelessWidget {
-  const CardView({Key? key, required this.topic, this.icon, required this.function}) : super(key: key);
+  const CardView(
+      {Key? key, required this.topic, this.icon, required this.function})
+      : super(key: key);
 
   final String topic;
   final IconData? icon;
@@ -12,9 +14,9 @@ class CardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20,bottom: 20,left: 10,right: 10),
+      padding: EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           function();
         },
         child: Card(
@@ -31,8 +33,9 @@ class CardView extends StatelessWidget {
                 height: 110,
                 decoration: BoxDecoration(
                     color: primaryColor,
-                    borderRadius:
-                    BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10.0))),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10.0))),
               ),
               Container(
                 width: 130,
@@ -40,14 +43,17 @@ class CardView extends StatelessWidget {
                   children: [
                     Padding(
                         padding: EdgeInsets.only(top: 10),
-                        child: Icon(icon,color: Colors.black,size: 30,)),
+                        child: Icon(
+                          icon,
+                          color: Colors.black,
+                          size: 30,
+                        )),
                     Padding(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text(topic,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20
-                        ),),
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text(
+                        topic,
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
                     )
                   ],
                 ),
@@ -56,6 +62,7 @@ class CardView extends StatelessWidget {
           ),
         ),
       ),
-    );;
+    );
+    ;
   }
 }

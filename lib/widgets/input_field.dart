@@ -12,7 +12,6 @@ class InputField extends StatelessWidget {
   const InputField({
     Key? key,
     required this.controller,
-
     this.text,
     required this.textInputType,
     this.function,
@@ -26,7 +25,7 @@ class InputField extends StatelessWidget {
         controller: controller,
         keyboardType: textInputType,
         textInputAction: TextInputAction.next,
-        validator: (value){
+        validator: (value) {
           return function!(value!);
         },
         textAlign: TextAlign.left,
@@ -35,7 +34,7 @@ class InputField extends StatelessWidget {
             padding: EdgeInsets.only(left: 10),
           ),
           contentPadding: const EdgeInsets.all(5),
-          enabledBorder:  OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.black, width: 2.0),
           ),
@@ -45,14 +44,13 @@ class InputField extends StatelessWidget {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red,width: 2.0),
+            borderSide: BorderSide(color: Colors.red, width: 2.0),
           ),
-          hintStyle: TextStyle(
-              fontWeight: FontWeight.bold
-          ),
+          hintStyle: TextStyle(fontWeight: FontWeight.bold),
           hintText: text,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),),
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),

@@ -13,12 +13,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
-
-
   bool _passwordVisible = false;
-
-
 
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
@@ -34,34 +29,29 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-
           children: [
             Column(
-
               children: [
                 Padding(
                     padding: EdgeInsets.all(20),
-                    child: const Text("Create Your Account",style:
-                    TextStyle(
-                        fontSize: 20
-                    ),)),
+                    child: const Text(
+                      "Create Your Account",
+                      style: TextStyle(fontSize: 20),
+                    )),
               ],
             ),
             Column(
-
-             children: [
-               _buildName(),
-               _buildAge(),
-               _buildPhoneNumber(),
-               _buildAddress(),
-               _buildId(),
-               _buildEmail(),
-               _buildPassword(),
-               _buildConfirmPassword(),
-               _buildSignupButton()
-
-
-             ],
+              children: [
+                _buildName(),
+                _buildAge(),
+                _buildPhoneNumber(),
+                _buildAddress(),
+                _buildId(),
+                _buildEmail(),
+                _buildPassword(),
+                _buildConfirmPassword(),
+                _buildSignupButton()
+              ],
             )
           ],
         ),
@@ -69,7 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildName(){
+  Widget _buildName() {
     return InputField(
         controller: nameController,
         textInputType: TextInputType.name,
@@ -77,35 +67,39 @@ class _SignupScreenState extends State<SignupScreen> {
         function: Validator.nameValidate);
   }
 
-  Widget _buildAge(){
+  Widget _buildAge() {
     return InputField(
         controller: ageController,
         textInputType: TextInputType.number,
         text: "Age",
         function: Validator.nameValidate);
   }
-  Widget _buildPhoneNumber(){
+
+  Widget _buildPhoneNumber() {
     return InputField(
         controller: phoneNumberController,
         textInputType: TextInputType.number,
         text: "Phone Number",
         function: Validator.nameValidate);
   }
-  Widget _buildAddress(){
+
+  Widget _buildAddress() {
     return InputField(
         controller: addressController,
         textInputType: TextInputType.streetAddress,
         text: "Address",
         function: Validator.nameValidate);
   }
-  Widget _buildId(){
+
+  Widget _buildId() {
     return InputField(
         controller: idNumberController,
         textInputType: TextInputType.number,
         text: "Id Number",
         function: Validator.nameValidate);
   }
-  Widget _buildEmail(){
+
+  Widget _buildEmail() {
     return InputField(
         controller: emailController,
         textInputType: TextInputType.emailAddress,
@@ -113,7 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
         function: Validator.emailValidate);
   }
 
-  Widget _buildPassword(){
+  Widget _buildPassword() {
     return InputPasswordField(
       textEditingController: passwordController,
       text: "Password",
@@ -121,22 +115,21 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildConfirmPassword(){
+  Widget _buildConfirmPassword() {
     return Container(
       child: TextFormField(
         controller: confirmPasswordController,
         textInputAction: TextInputAction.done,
-        validator: (value){
-          if(confirmPasswordController.text !=passwordController.text){
+        validator: (value) {
+          if (confirmPasswordController.text != passwordController.text) {
             return "Password do not match.";
-
           }
         },
         obscureText: !_passwordVisible,
         textAlign: TextAlign.left,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(5),
-          enabledBorder:  OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.black, width: 2.0),
           ),
@@ -146,15 +139,15 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red,width: 2.0),
+            borderSide: BorderSide(color: Colors.red, width: 2.0),
           ),
-          hintStyle: TextStyle(
-
-              fontWeight: FontWeight.bold
-          ),
+          hintStyle: TextStyle(fontWeight: FontWeight.bold),
           hintText: 'Confirm Password',
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          prefixIcon: Icon(Icons.key,color: primaryColor,),
+          prefixIcon: Icon(
+            Icons.key,
+            color: primaryColor,
+          ),
           suffixIcon: IconButton(
             icon: Icon(
                 _passwordVisible ? Icons.visibility : Icons.visibility_off),
@@ -171,14 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildSignupButton(){
-    return ButtonField(
-        function: (){
-
-        },
-        text: "Sign Up");
+  Widget _buildSignupButton() {
+    return ButtonField(function: () {}, text: "Sign Up");
   }
-
-
-
 }

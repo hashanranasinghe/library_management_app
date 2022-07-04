@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:library_management_app/api/constant.dart';
 
 class ButtonField extends StatelessWidget {
-  const ButtonField({Key? key, required this.function, required this.text}) : super(key: key);
+  const ButtonField({Key? key, required this.function, required this.text})
+      : super(key: key);
 
   final Function function;
   final String text;
@@ -10,15 +11,13 @@ class ButtonField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          vertical: 5, horizontal: 40),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
       child: TextButton(
-          onPressed: () async{
+          onPressed: () async {
             function();
           },
           child: Container(
-            padding: EdgeInsets.symmetric(
-                vertical: 6, horizontal: 6),
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
             width: double.infinity,
             child: Center(
               child: Text(
@@ -33,13 +32,11 @@ class ButtonField extends StatelessWidget {
             ),
           ),
           style: ButtonStyle(
-              shape: MaterialStateProperty.all<
-                  RoundedRectangleBorder>(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-              backgroundColor: MaterialStateProperty.all(
-                  primaryColor))),
+                borderRadius: BorderRadius.circular(10),
+              )),
+              backgroundColor: MaterialStateProperty.all(primaryColor))),
     );
   }
 }

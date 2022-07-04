@@ -6,10 +6,9 @@ class InputPasswordField extends StatefulWidget {
   final String? text;
   final Function(String)? function;
 
-  InputPasswordField({Key? key,
-    this.textEditingController,
-    this.text,
-    this.function}) : super(key: key);
+  InputPasswordField(
+      {Key? key, this.textEditingController, this.text, this.function})
+      : super(key: key);
 
   @override
   State<InputPasswordField> createState() => _InputPasswordFieldState();
@@ -24,14 +23,14 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
       child: TextFormField(
         controller: widget.textEditingController,
         textInputAction: TextInputAction.done,
-        validator: (value){
+        validator: (value) {
           return widget.function!(value!);
         },
         obscureText: !_passwordVisible,
         textAlign: TextAlign.left,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(5),
-          enabledBorder:  OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.black, width: 2.0),
           ),
@@ -41,14 +40,15 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red,width: 2.0),
+            borderSide: BorderSide(color: Colors.red, width: 2.0),
           ),
-          hintStyle: TextStyle(
-              fontWeight: FontWeight.bold
-          ),
+          hintStyle: TextStyle(fontWeight: FontWeight.bold),
           hintText: widget.text,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          prefixIcon: Icon(Icons.key,color: primaryColor,),
+          prefixIcon: Icon(
+            Icons.key,
+            color: primaryColor,
+          ),
           suffixIcon: IconButton(
             icon: Icon(
                 _passwordVisible ? Icons.visibility : Icons.visibility_off),
@@ -63,6 +63,5 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
       ),
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
     );
-
   }
 }
