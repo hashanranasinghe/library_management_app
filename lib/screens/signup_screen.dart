@@ -1,12 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/api/constant.dart';
 import 'package:library_management_app/api/validator.dart';
+import 'package:library_management_app/models/createaccount.dart';
+import 'package:library_management_app/screens/admin_home_screen.dart';
 import 'package:library_management_app/widgets/button.dart';
 import 'package:library_management_app/widgets/input_field.dart';
 import 'package:library_management_app/widgets/input_password.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
+  static const routName = 'signup-screen';
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -14,6 +20,8 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool _passwordVisible = false;
+  final _form = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
@@ -40,18 +48,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     )),
               ],
             ),
-            Column(
-              children: [
-                _buildName(),
-                _buildAge(),
-                _buildPhoneNumber(),
-                _buildAddress(),
-                _buildId(),
-                _buildEmail(),
-                _buildPassword(),
-                _buildConfirmPassword(),
-                _buildSignupButton()
-              ],
+            Form(
+              key: _form,
+              child: Column(
+                children: [
+                  _buildName(),
+                  _buildAge(),
+                  _buildPhoneNumber(),
+                  _buildAddress(),
+                  _buildId(),
+                  _buildEmail(),
+                  _buildPassword(),
+                  _buildConfirmPassword(),
+                  _buildSignupButton()
+                ],
+              ),
             )
           ],
         ),
@@ -69,10 +80,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildAge() {
     return InputField(
-        controller: ageController,
-        textInputType: TextInputType.number,
-        text: "Age",
-        function: Validator.nameValidate);
+      controller: ageController,
+      textInputType: TextInputType.number,
+      text: "Age",
+      function: Validator.videoValidate,
+    );
   }
 
   Widget _buildPhoneNumber() {
@@ -80,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
         controller: phoneNumberController,
         textInputType: TextInputType.number,
         text: "Phone Number",
-        function: Validator.nameValidate);
+        function: Validator.videoValidate);
   }
 
   Widget _buildAddress() {
@@ -96,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
         controller: idNumberController,
         textInputType: TextInputType.number,
         text: "Id Number",
-        function: Validator.nameValidate);
+        function: Validator.videoValidate);
   }
 
   Widget _buildEmail() {
@@ -165,6 +177,47 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignupButton() {
-    return ButtonField(function: () {}, text: "Sign Up");
+    return ButtonField(
+        function: () {
+          signUp(emailController.text, passwordController.text);
+        },
+        text: "Sign Up");
+  }
+
+  void signUp(String email, String password) async {
+    if (_form.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFileStore()})
+          .catchError((e) {
+        Fluttertoast.showToast(
+          msg: 'The email address is already taken.',
+          toastLength: Toast.LENGTH_LONG,
+        );
+      });
+    }
+  }
+
+  postDetailsToFileStore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    CreateAccount createAccount = CreateAccount();
+    //writing all values
+    createAccount.name = nameController.text;
+    createAccount.age = ageController.text;
+    createAccount.number = phoneNumberController.text;
+    createAccount.address = addressController.text;
+    createAccount.idNumber = idNumberController.text;
+    createAccount.email = user!.email;
+    createAccount.id = user.uid;
+
+    firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(createAccount.toMap());
+
+    //Fluttertoast.showToast(msg: "Account created successfully.");
+    Navigator.of(context).pushReplacementNamed(AdminHomeScreen.routName);
   }
 }

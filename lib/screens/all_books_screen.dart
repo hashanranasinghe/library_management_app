@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:library_management_app/models/models.dart';
-import 'package:library_management_app/models/provider.dart';
-import 'package:provider/provider.dart';
+
 
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({Key? key}) : super(key: key);
@@ -17,9 +16,15 @@ class AllBooksScreen extends StatefulWidget {
 
 class _AllBooksScreenState extends State<AllBooksScreen> {
 
-  Stream<List<AddBook>> allBooks()=> FirebaseFirestore.instance
+
+  Stream<List<AddBook>> allBooks(){ 
+    
+    return FirebaseFirestore.instance
       .collection("books").snapshots().
   map((snapshot) => snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
+
+  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,4 +55,6 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
     subtitle: Text(addBook.bAuthorName.toString()),
 
   );
+
+  
 }

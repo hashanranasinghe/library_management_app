@@ -34,7 +34,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 function: () {
                   print(video.bName);
                   Navigator.of(context)
-                      .pushReplacementNamed(AllBooksScreen.routName);
+                      .pushNamed(AllBooksScreen.routName);
                 },
               ),
               CardView(

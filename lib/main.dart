@@ -1,18 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:library_management_app/models/models.dart';
 import 'package:library_management_app/models/provider.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/screens/admin_home_screen.dart';
 import 'package:library_management_app/screens/all_books_screen.dart';
+import 'package:library_management_app/screens/loginscreen.dart';
+import 'package:library_management_app/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 
-// Future main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(const MyApp());
-// }
 
 Future<void> main() async {
 
@@ -33,11 +28,15 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const AdminHomeScreen(),
+        home: const LoginScreen(),
         routes: {
           AdminHomeScreen.routName: (ctx) => const AdminHomeScreen(),
           AddBookScreen.routName: (ctx) => const AddBookScreen(),
           AllBooksScreen.routName: (ctx) => const AllBooksScreen(),
+          SignupScreen.routName: (ctx) => const SignupScreen(),
+          LoginScreen.routName: (ctx) => const LoginScreen(),
+
+
         },
       ),
     );

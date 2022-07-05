@@ -47,7 +47,7 @@ class Validator {
   static String? videoValidate(String value) {
     if (value.isEmpty) {
       return "Name cannot be Empty";
-    } else if (value.length < 3) {
+    } else if (value.length < 1) {
       return "Invalid Name.";
     }
     return null;
