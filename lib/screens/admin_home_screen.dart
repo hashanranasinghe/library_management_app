@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:library_management_app/models/provider.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/screens/all_books_screen.dart';
+import 'package:library_management_app/screens/all_users_screen.dart';
+import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/widgets/card.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +42,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               CardView(
                 topic: "Category",
                 icon: Icons.category_outlined,
-                function: () {},
+                function: () {
+                  Navigator.of(context)
+                      .pushNamed(CategoryScreen.routName);
+                },
               )
             ],
           ),
@@ -50,7 +55,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               CardView(
                 topic: "Users",
                 icon: Icons.supervised_user_circle_sharp,
-                function: () {},
+                function: () {
+                  Navigator.of(context)
+                      .pushNamed(AllUsersScreen.routName);
+                },
               ),
               CardView(
                 topic: "Add Book",

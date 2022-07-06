@@ -5,10 +5,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/api/constant.dart';
 import 'package:library_management_app/api/validator.dart';
 import 'package:library_management_app/screens/admin_home_screen.dart';
+import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/signup_screen.dart';
 import 'package:library_management_app/widgets/button.dart';
 import 'package:library_management_app/widgets/input_field.dart';
 import 'package:library_management_app/widgets/input_password.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -84,7 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginButton() {
-    return ButtonField(function: () {
+    return ButtonField(function: () async{
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString(
+          'email', emailController.text);
       signIn(emailController.text,
           passwordController.text);
     }, text: "Sign In");

@@ -4,8 +4,12 @@ import 'package:library_management_app/models/provider.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/screens/admin_home_screen.dart';
 import 'package:library_management_app/screens/all_books_screen.dart';
+import 'package:library_management_app/screens/all_users_screen.dart';
+import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
+import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/screens/signup_screen.dart';
+import 'package:library_management_app/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -28,13 +32,18 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(),
+        home: const ProvideBookScreen(),
         routes: {
           AdminHomeScreen.routName: (ctx) => const AdminHomeScreen(),
           AddBookScreen.routName: (ctx) => const AddBookScreen(),
           AllBooksScreen.routName: (ctx) => const AllBooksScreen(),
           SignupScreen.routName: (ctx) => const SignupScreen(),
           LoginScreen.routName: (ctx) => const LoginScreen(),
+          CategoryScreen.routName: (ctx) => const CategoryScreen(),
+          SplashScreen.routName: (ctx) => const SplashScreen(),
+          AllUsersScreen.routName: (ctx) => const AllUsersScreen(),
+
+
 
 
         },

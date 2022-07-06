@@ -3,27 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:library_management_app/models/models.dart';
 
 
-class AllBooksScreen extends StatefulWidget {
-  const AllBooksScreen({Key? key}) : super(key: key);
+class CategoryBooksScreen extends StatefulWidget {
+  final String text;
+  CategoryBooksScreen({Key? key, required this.text}) : super(key: key);
   static const routName = 'all-books-screen';
 
 
 
 
+
   @override
-  State<AllBooksScreen> createState() => _AllBooksScreenState();
+  State<CategoryBooksScreen> createState() => _CategoryBooksScreenState();
 }
 
-class _AllBooksScreenState extends State<AllBooksScreen> {
+class _CategoryBooksScreenState extends State<CategoryBooksScreen> {
+  late final String name;
 
 
-  Stream<List<AddBook>> allBooks(){ 
-    
+  Stream<List<AddBook>> allBooks(){
+
     return FirebaseFirestore.instance
-      .collection("books").
+        .collection("books").where('bCategory', isEqualTo: widget.text).
     snapshots().
-  map((snapshot) => snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
+    map((snapshot) => snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
 
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -37,7 +45,7 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
           }else if(snapshot.hasData){
             final books = snapshot.data!;
             return ListView(
-              children: books.map(buildBook).toList()
+                children: books.map(buildBook).toList()
             );
           }else{
             return Center(
@@ -56,5 +64,5 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
 
   );
 
-  
+
 }
