@@ -44,11 +44,37 @@ class Validator {
     }
   }
 
-  static String? videoValidate(String value) {
-    if (value.isEmpty) {
-      return "Name cannot be Empty";
-    } else if (value.length < 1) {
-      return "Invalid Name.";
+
+  static String? nicValidate(String value){
+    const patternOne = r"^[0-9]{9}[vV]$";
+    const patternTwo = r"^[0-9]{7}[0][0-9]{4}$";
+    final regExpOne = RegExp(patternOne);
+    final regExpTwo = RegExp(patternTwo);
+
+    if(value.isEmpty){
+      return 'NIC No. required';
+    }else if(value.length< 10){
+      return('Valid NIC No. Required');
+    }else if(!regExpOne.hasMatch(value) && !regExpTwo.hasMatch(value)){
+      return ('Invalid NIC.');
+    }
+    return null;
+  }
+
+  static String? phoneNumber(String value){
+    if(value.isEmpty){
+      return "Phone Number required.";
+    }else if(value.length != 10){
+      return "Invalid Phone Number.";
+    }
+    return null;
+  }
+
+  static String? age(String value){
+    if(value.isEmpty){
+      return "Age required";
+    }else if(value.length > 3){
+      return "Invalid age";
     }
     return null;
   }

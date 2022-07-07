@@ -103,10 +103,15 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
         Fluttertoast.showToast(msg: "Login Successfully"),
-        Navigator.of(context)
-            .pushReplacementNamed(AdminHomeScreen.routName),
-      })
-          .catchError((e) {
+        if(email=="test@gmail.com"){
+          Navigator.of(context)
+              .pushReplacementNamed(AdminHomeScreen.routName),
+        }else{
+          Navigator.of(context)
+              .pushReplacementNamed(AllBooksScreen.routName),
+        }
+
+      }).catchError((e) {
         Fluttertoast.showToast(
             msg: 'Incorrect Email or Password.',
             toastLength: Toast.LENGTH_LONG);

@@ -5,6 +5,7 @@ import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
+import 'package:library_management_app/screens/profile_screen.dart';
 import 'package:library_management_app/widgets/card.dart';
 import 'package:provider/provider.dart';
 
@@ -68,6 +69,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       .pushReplacementNamed(AddBookScreen.routName);
                 },
               )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CardView(
+                topic: "Profile",
+                icon: Icons.supervised_user_circle_sharp,
+                function: () {
+                  Navigator.of(context)
+                      .pushNamed(ProfileScreen.routeName);
+                },
+              ),
             ],
           )
         ],

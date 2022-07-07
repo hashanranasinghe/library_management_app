@@ -7,6 +7,7 @@ import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
+import 'package:library_management_app/screens/profile_screen.dart';
 import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/screens/signup_screen.dart';
 import 'package:library_management_app/screens/splash_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const ProvideBookScreen(),
+        home: const SplashScreen(),
         routes: {
           AdminHomeScreen.routName: (ctx) => const AdminHomeScreen(),
           AddBookScreen.routName: (ctx) => const AddBookScreen(),
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           CategoryScreen.routName: (ctx) => const CategoryScreen(),
           SplashScreen.routName: (ctx) => const SplashScreen(),
           AllUsersScreen.routName: (ctx) => const AllUsersScreen(),
+          ProfileScreen.routeName: (ctx) => const ProfileScreen(),
 
 
 

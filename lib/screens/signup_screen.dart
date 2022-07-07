@@ -6,6 +6,7 @@ import 'package:library_management_app/api/constant.dart';
 import 'package:library_management_app/api/validator.dart';
 import 'package:library_management_app/models/createaccount.dart';
 import 'package:library_management_app/screens/admin_home_screen.dart';
+import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/widgets/button.dart';
 import 'package:library_management_app/widgets/input_field.dart';
 import 'package:library_management_app/widgets/input_password.dart';
@@ -83,7 +84,7 @@ class _SignupScreenState extends State<SignupScreen> {
       controller: ageController,
       textInputType: TextInputType.number,
       text: "Age",
-      function: Validator.videoValidate,
+      function: Validator.age,
     );
   }
 
@@ -92,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
         controller: phoneNumberController,
         textInputType: TextInputType.number,
         text: "Phone Number",
-        function: Validator.videoValidate);
+        function: Validator.phoneNumber);
   }
 
   Widget _buildAddress() {
@@ -108,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
         controller: idNumberController,
         textInputType: TextInputType.number,
         text: "Id Number",
-        function: Validator.videoValidate);
+        function: Validator.nicValidate);
   }
 
   Widget _buildEmail() {
@@ -218,6 +219,6 @@ class _SignupScreenState extends State<SignupScreen> {
         .set(createAccount.toMap());
 
     //Fluttertoast.showToast(msg: "Account created successfully.");
-    Navigator.of(context).pushReplacementNamed(AdminHomeScreen.routName);
+    Navigator.of(context).pushReplacementNamed(LoginScreen.routName);
   }
 }

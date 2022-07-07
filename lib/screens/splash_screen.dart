@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:library_management_app/screens/admin_home_screen.dart';
+import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,8 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
       Timer(const Duration(seconds: 3), () {
         if (finalEmail == null) {
           Navigator.of(context).pushReplacementNamed(LoginScreen.routName);
-        } else {
+        } else if(finalEmail == "test@gmail.com") {
           Navigator.of(context).pushReplacementNamed(AdminHomeScreen.routName);
+        }else{
+          Navigator.of(context).pushReplacementNamed(AllBooksScreen.routName);
         }
       });
     });
