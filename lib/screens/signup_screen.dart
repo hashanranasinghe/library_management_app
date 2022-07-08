@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/api/constant.dart';
 import 'package:library_management_app/api/validator.dart';
 import 'package:library_management_app/models/createaccount.dart';
-import 'package:library_management_app/screens/admin_home_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/widgets/button.dart';
 import 'package:library_management_app/widgets/input_field.dart';

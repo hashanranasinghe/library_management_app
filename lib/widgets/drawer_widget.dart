@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_management_app/screens/category_book_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
+import 'package:library_management_app/screens/profile_screen.dart';
+import 'package:library_management_app/screens/provide_book_list_screen.dart';
 import 'package:library_management_app/widgets/list_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,9 +26,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ListTileField(
                   function: () {}, icon: Icons.home_outlined, text: 'Home'),
               ListTileField(
-                  function: () {},
+                  function: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(ProvideBooksListScreen.routName);
+
+                  },
                   icon: Icons.video_collection_outlined,
-                  text: 'Video List'),
+                  text: 'Books obtained'),
               ListTileField(
                   function: () {},
                   icon: Icons.video_collection_outlined,
@@ -39,7 +46,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   icon: Icons.favorite_border,
                   text: 'My Contacts'),
               ListTileField(
-                  function: () {},
+                  function: () {
+                    Navigator.of(context)
+                        .pushNamed(ProfileScreen.routeName);
+                  },
                   icon: Icons.person_outline_rounded,
                   text: 'My Profile'),
               ListTileField(

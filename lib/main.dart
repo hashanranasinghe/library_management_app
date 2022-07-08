@@ -8,6 +8,7 @@ import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/screens/profile_screen.dart';
+import 'package:library_management_app/screens/provide_book_list_screen.dart';
 import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/screens/signup_screen.dart';
 import 'package:library_management_app/screens/splash_screen.dart';
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
           SplashScreen.routName: (ctx) => const SplashScreen(),
           AllUsersScreen.routName: (ctx) => const AllUsersScreen(),
           ProfileScreen.routeName: (ctx) => const ProfileScreen(),
+          ProvideBookScreen.routName: (ctx) => const ProvideBookScreen(),
+          ProvideBooksListScreen.routName: (ctx) => const ProvideBooksListScreen()
 
 
 

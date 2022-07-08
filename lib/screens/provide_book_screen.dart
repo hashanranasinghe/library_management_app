@@ -2,29 +2,39 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/models/createaccount.dart';
 import 'package:library_management_app/models/models.dart';
+import 'package:library_management_app/models/providebook.dart';
+import 'package:library_management_app/widgets/button.dart';
 
 class ProvideBookScreen extends StatefulWidget {
   const ProvideBookScreen({Key? key}) : super(key: key);
+  static const routName = 'provide-book-screen';
 
   @override
   State<ProvideBookScreen> createState() => _ProvideBookScreenState();
+
 }
 
 Future<List<CreateAccount>> getUserSuggestion(String query) async {
   QuerySnapshot qn = await FirebaseFirestore.instance.collection("users").get();
   final List users = qn.docs;
-  return users.map((json) => CreateAccount.fromMap(json)).where((user) {
-    final nameLower = user.name.toString().toLowerCase();
-    final queryLower = query.toLowerCase();
-    return nameLower.contains(queryLower);
-  }).toList();
+  try {
+    return users.map((doc) => CreateAccount.fromMap(doc)).where((user) {
+      final nameLower = user.name.toString().toLowerCase();
+      final queryLower = query.toLowerCase();
+      return nameLower.contains(queryLower);
+    }).toList();
+  }catch(e){
+    print(e);
+    throw e;
+  }
 }
 
 Future<List<AddBook>> getBookSuggestion(String query) async {
-  QuerySnapshot qn = await FirebaseFirestore.instance.collection("books").get();
-  final List books = qn.docs;
+  QuerySnapshot qu = await FirebaseFirestore.instance.collection("books").get();
+  final List books = qu.docs;
   return books.map((json) => AddBook.fromMap(json)).where((book) {
     final nameLower = book.bName.toString().toLowerCase();
     final queryLower = query.toLowerCase();
@@ -32,17 +42,27 @@ Future<List<AddBook>> getBookSuggestion(String query) async {
   }).toList();
 }
 
+
 class _ProvideBookScreenState extends State<ProvideBookScreen> {
+
   final TextEditingController typeAheadUserController = TextEditingController();
   final TextEditingController typeAheadBookController = TextEditingController();
   String? datePick;
   DateTime date = DateTime(2022, 12, 24);
+  String? id;
+  String? name;
+  String? selectBook;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          Text("Provide a Book"),
+          SizedBox(
+            height: 50,
+          ),
           TypeAheadField<CreateAccount?>(
             textFieldConfiguration:
                 TextFieldConfiguration(controller: typeAheadUserController),
@@ -62,10 +82,18 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
               ),
             ),
             onSuggestionSelected: (CreateAccount? suggestion) {
+
+
               final user = suggestion!;
+              setState(() {
+                id = user.id.toString();
+                name= user.name.toString();
+              });
+
               typeAheadUserController.text = user.name.toString();
             },
           ),
+
           TypeAheadField<AddBook?>(
             textFieldConfiguration:
                 TextFieldConfiguration(controller: typeAheadBookController),
@@ -86,6 +114,9 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
             ),
             onSuggestionSelected: (AddBook? suggestion) {
               final book = suggestion!;
+              setState(() {
+               selectBook =  book.bName.toString();
+              });
               typeAheadBookController.text = book.bName.toString();
             },
           ),
@@ -134,8 +165,40 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
             ),
             margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
           ),
+          _buildButton(),
         ],
       ),
     );
+  }
+  Widget _buildButton(){
+    return ButtonField(
+        function: (){
+            provideBook(id, name,selectBook,datePick);
+        },
+        text: "Provide");
+  }
+
+  Future provideBook (String? uid,String? name,String? bookName, String? date) async{
+    final pBook = FirebaseFirestore.instance.
+    collection('users').doc(uid).collection('provideBooks').doc();
+
+    final books = ProvideBook(
+        pid: uid,
+        pUserName: name,
+        pBookName: bookName,
+        pDate: date,
+    );
+
+    final json = books.toMap();
+
+    await pBook.set(json).whenComplete(() =>
+        Fluttertoast.showToast(
+        msg: 'Provide Successfully',
+        toastLength: Toast.LENGTH_LONG));
+    print(uid);
+    print(name);
+
+
+
   }
 }
