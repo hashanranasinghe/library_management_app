@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:library_management_app/models/models.dart';
 import 'package:library_management_app/models/provider.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/screens/all_books_screen.dart';
@@ -7,6 +9,7 @@ import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/screens/profile_screen.dart';
+import 'package:library_management_app/screens/provide_book_list_screen.dart';
 import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/widgets/card.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +24,27 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
+  List<Object> _list = [];
+
+
+
+  Future getData() async {
+    var data = await FirebaseFirestore.instance.collection("books").get();
+    setState(() {
+      _list = List.from(data.docs.map((doc) => AddBook.fromMap(doc)));
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final video = Provider.of<BookData>(context,listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
@@ -48,6 +69,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "All Books",
                   icon: Icons.book_outlined,
                   function: () {
+
                     print(video.bName);
                     Navigator.of(context)
                         .pushNamed(AllBooksScreen.routName);
@@ -103,6 +125,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         .pushNamed(ProvideBookScreen.routName);
                   },
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CardView(
+                  topic: "Provide",
+                  icon: Icons.supervised_user_circle_sharp,
+                  function: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProvideBooksListScreen(text: "admin"),
+                        ));
+                  },
+                ),
+
               ],
             )
           ],

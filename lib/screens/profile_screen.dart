@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/api/constant.dart';
+import 'package:library_management_app/widgets/drawer_widget.dart';
+import 'package:library_management_app/widgets/topwidget.dart';
 import '../api/Validator.dart';
 import '../widgets/input_field.dart';
 
@@ -42,9 +44,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      resizeToAvoidBottomInset: false,
+      drawer: DrawerWidget(
+        scaffoldKey: _scaffoldKey,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          TopScreenWidget(
+              scaffoldKey: _scaffoldKey,
+              topLeft: SizedBox(
+                height: 50,
+                width: 50,
+              )),
           isLoading == true
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -213,6 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     User? user = _auth.currentUser;
     final uid = user!.uid;
     return await userCollection.doc(uid).set({
+      'id': uid,
       'name': name,
       'email': email,
       'age': age,

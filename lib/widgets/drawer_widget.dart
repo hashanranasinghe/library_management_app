@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:library_management_app/screens/category_book_screen.dart';
+import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/screens/profile_screen.dart';
 import 'package:library_management_app/screens/provide_book_list_screen.dart';
@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  DrawerWidget({required this.scaffoldKey});
+  const DrawerWidget({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
@@ -24,12 +24,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           Column(
             children: <Widget>[
               ListTileField(
-                  function: () {}, icon: Icons.home_outlined, text: 'Home'),
-              ListTileField(
                   function: () {
                     Navigator.of(context)
-                        .pushReplacementNamed(ProvideBooksListScreen.routName);
-
+                        .pushReplacementNamed(AllBooksScreen.routName);
+                  },
+                  icon: Icons.home_outlined,
+                  text: 'Home'),
+              ListTileField(
+                  function: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProvideBooksListScreen(text: "user"),
+                        ));
                   },
                   icon: Icons.video_collection_outlined,
                   text: 'Books obtained'),
@@ -47,8 +54,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   text: 'My Contacts'),
               ListTileField(
                   function: () {
-                    Navigator.of(context)
-                        .pushNamed(ProfileScreen.routeName);
+                    Navigator.of(context).pushNamed(ProfileScreen.routeName);
                   },
                   icon: Icons.person_outline_rounded,
                   text: 'My Profile'),

@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:library_management_app/models/providebook.dart';
+import 'package:library_management_app/widgets/details_dialog.dart';
 
 class ProvideBooksListScreen extends StatefulWidget {
-  const ProvideBooksListScreen({Key? key}) : super(key: key);
-  static const routName = 'provide-books-list-screen';
+  const ProvideBooksListScreen({Key? key, required this.text})
+      : super(key: key);
+  final String text;
 
   @override
   State<ProvideBooksListScreen> createState() => _ProvideBooksListScreenState();
@@ -19,14 +21,23 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
     User? user = _auth.currentUser;
     final uid = user!.uid;
 
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .collection('provideBooks')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => ProvideBook.fromMap(doc.data()))
-            .toList());
+    if (widget.text == "user") {
+      return FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .collection('provideBooks')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => ProvideBook.fromMap(doc.data()))
+              .toList());
+    } else {
+      return FirebaseFirestore.instance
+          .collection("provideBooks")
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => ProvideBook.fromMap(doc.data()))
+              .toList());
+    }
   }
 
   @override
@@ -51,7 +62,22 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
   }
 
   Widget buildBook(ProvideBook provideBook) => ListTile(
-        title: Text(provideBook.pBookName.toString()),
-        subtitle: Text(provideBook.pDate.toString()),
-      );
+      title: Text(provideBook.pBookName.toString()),
+      subtitle: Text(provideBook.pDate.toString()),
+      trailing: widget.text == "admin"
+          ? IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                DetailsDialog.builtDetailsDialog(
+                    context,
+                    provideBook.pBookImageUrl.toString(),
+                    provideBook.pUserName.toString(),
+                    provideBook.pBookName.toString(),
+                    provideBook.pDate.toString(),
+                    provideBook.pReturnDate.toString());
+              },
+            )
+          : Container(
+              width: 1,
+            ));
 }
