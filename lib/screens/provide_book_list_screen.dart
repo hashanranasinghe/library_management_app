@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:library_management_app/models/providebook.dart';
-import 'package:library_management_app/widgets/details_dialog.dart';
+import 'package:library_management_app/widgets/book_card.dart';
 
 class ProvideBooksListScreen extends StatefulWidget {
   const ProvideBooksListScreen({Key? key, required this.text})
@@ -15,69 +15,54 @@ class ProvideBooksListScreen extends StatefulWidget {
 }
 
 class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
+
+
+  late List<Object> _provideBookList;
+  bool isLoading = true;
   final _auth = FirebaseAuth.instance;
 
-  Stream<List<ProvideBook>> provideBooks() {
-    User? user = _auth.currentUser;
-    final uid = user!.uid;
-
-    if (widget.text == "user") {
-      return FirebaseFirestore.instance
-          .collection("users")
-          .doc(uid)
-          .collection('provideBooks')
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => ProvideBook.fromMap(doc.data()))
-              .toList());
-    } else {
-      return FirebaseFirestore.instance
-          .collection("provideBooks")
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => ProvideBook.fromMap(doc.data()))
-              .toList());
-    }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    getProvideBookList();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<ProvideBook>>(
-        stream: provideBooks(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text("Something went to wrong");
-          } else if (snapshot.hasData) {
-            final books = snapshot.data!;
-            return ListView(children: books.map(buildBook).toList());
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+        body: isLoading == false?
+            ListView.builder(
+            itemCount: _provideBookList.length,
+            itemBuilder: (context, index) {
+              return BookCard(
+                  provideBook: _provideBookList[index] as ProvideBook,
+                  index: index.toString());
+            }):Center(child: const CircularProgressIndicator()));
   }
 
-  Widget buildBook(ProvideBook provideBook) => ListTile(
-      title: Text(provideBook.pBookName.toString()),
-      subtitle: Text(provideBook.pDate.toString()),
-      trailing: widget.text == "admin"
-          ? IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                DetailsDialog.builtDetailsDialog(
-                    context,
-                    provideBook.pBookImageUrl.toString(),
-                    provideBook.pUserName.toString(),
-                    provideBook.pBookName.toString(),
-                    provideBook.pDate.toString(),
-                    provideBook.pReturnDate.toString());
-              },
-            )
-          : Container(
-              width: 1,
-            ));
+  Future getProvideBookList() async {
+    User? user = _auth.currentUser;
+    final uid = user!.uid;
+    if(widget.text == "admin"){
+      var data =
+      await FirebaseFirestore.instance.collection("provideBooks").get();
+      setState(() {
+        _provideBookList =
+            List.from(data.docs.map((doc) => ProvideBook.fromMap(doc)));
+        isLoading = false;
+      });
+    }else{
+      var data =
+      await FirebaseFirestore.instance.collection("provideBooks").doc(uid).collection("provideBooks").get();
+      setState(() {
+        _provideBookList =
+            List.from(data.docs.map((doc) => ProvideBook.fromMap(doc)));
+        isLoading = false;
+      });
+    }
+
+
+
+  }
 }
