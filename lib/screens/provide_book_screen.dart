@@ -41,7 +41,10 @@ Future<List<AddBook>> getBookSuggestion(String query) async {
   }).toList();
 }
 
+
+
 class _ProvideBookScreenState extends State<ProvideBookScreen> {
+
   final TextEditingController typeAheadUserController = TextEditingController();
   final TextEditingController typeAheadBookController = TextEditingController();
   String? datePick;
@@ -131,7 +134,8 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
                 setState(() {
                   datePick =
                       "${newDate.year.toString()}-${newDate.month.toString()}-${newDate.day.toString()}";
-                  returnDatePick = "${rDate.year.toString()}-${rDate.month.toString()}-${rDate.day.toString()}";
+                  returnDatePick =
+                      "${rDate.year.toString()}-${rDate.month.toString()}-${rDate.day.toString()}";
                 });
                 print(newDate);
               },
@@ -224,4 +228,5 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
 
     await pBook.set(json);
   }
+
 }

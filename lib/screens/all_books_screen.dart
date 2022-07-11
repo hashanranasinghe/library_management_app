@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:library_management_app/models/models.dart';
-import 'package:library_management_app/models/provider.dart';
+import 'package:library_management_app/widgets/book_card.dart';
 import 'package:library_management_app/widgets/drawer_widget.dart';
 import 'package:library_management_app/widgets/topwidget.dart';
-import 'package:provider/provider.dart';
+
 
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({Key? key}) : super(key: key);
@@ -15,18 +15,16 @@ class AllBooksScreen extends StatefulWidget {
 }
 
 class _AllBooksScreenState extends State<AllBooksScreen> {
+  @override
+  void didChangeDependencies() {
+    getBookList();
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-
-  Stream<List<AddBook>> allBooks() {
-
-
-    return FirebaseFirestore.instance.collection("books").snapshots().map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
-
-  }
+  late List<Object> _bookList;
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -44,32 +42,28 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
                 height: 50,
                 width: 50,
               )),
-
-          StreamBuilder<List<AddBook>>(
-            stream: allBooks(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text("Something went to wrong");
-              } else if (snapshot.hasData) {
-                final books = snapshot.data!;
-                return Expanded(child: ListView(
-                    shrinkWrap: true,
-                    children: books.map(buildBook).toList()));
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
+          isLoading == false
+              ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: _bookList.length,
+                  itemBuilder: (context, index) {
+                    return BookCard(
+                        change: "change",
+                        addBook: _bookList[index] as AddBook,
+                        index: index.toString());
+                  })
+              : Center(child: const CircularProgressIndicator())
         ],
       ),
     );
   }
 
-  Widget buildBook(AddBook addBook) => ListTile(
-        leading: Image.network(addBook.bImageUrl.toString()),
-        title: Text(addBook.bName.toString()),
-        subtitle: Text(addBook.bAuthorName.toString()),
-      );
+  Future getBookList() async {
+    var data = await FirebaseFirestore.instance.collection("books").get();
+    setState(() {
+      _bookList = List.from(data.docs.map((doc) => AddBook.fromMap(doc)));
+      isLoading = false;
+    });
+  }
 }

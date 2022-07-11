@@ -41,18 +41,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   icon: Icons.video_collection_outlined,
                   text: 'Books obtained'),
               ListTileField(
-                  function: () {},
-                  icon: Icons.video_collection_outlined,
-                  text: 'Share Video List'),
-              ListTileField(
-                  function: () {},
-                  icon: Icons.contact_page_outlined,
-                  text: 'Contacts'),
-              ListTileField(
-                  function: () {},
-                  icon: Icons.favorite_border,
-                  text: 'My Contacts'),
-              ListTileField(
                   function: () {
                     Navigator.of(context).pushNamed(ProfileScreen.routeName);
                   },

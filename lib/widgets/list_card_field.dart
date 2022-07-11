@@ -4,6 +4,7 @@ import 'package:library_management_app/api/constant.dart';
 class ListCardField extends StatelessWidget {
   final String? textName;
   final String? imageUrl;
+  final String? late;
   final Function? deleteFunction;
   final Function? detailsFunction;
 
@@ -12,7 +13,8 @@ class ListCardField extends StatelessWidget {
       this.textName,
       this.imageUrl,
       this.deleteFunction,
-      this.detailsFunction})
+      this.detailsFunction,
+      this.late})
       : super(key: key);
 
   @override
@@ -40,6 +42,16 @@ class ListCardField extends StatelessWidget {
                 ),
                 Row(
                   children: [
+                    late=="Late"?IconButton(
+                        onPressed: () {
+
+                        },
+                        icon: const Icon(Icons.warning_amber_outlined,
+                          color: Colors.red,
+                        )):Container(
+                      width: 1,
+                    ),
+
                     IconButton(
                         onPressed: () {
                           detailsFunction!();
