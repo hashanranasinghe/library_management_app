@@ -8,15 +8,12 @@ import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
 import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/screens/profile_screen.dart';
-import 'package:library_management_app/screens/provide_book_list_screen.dart';
 import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/screens/signup_screen.dart';
 import 'package:library_management_app/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
-
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -28,10 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (ctx) => BookData())
-      ],
+      providers: [ChangeNotifierProvider(create: (ctx) => BookData())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
@@ -46,10 +40,6 @@ class MyApp extends StatelessWidget {
           AllUsersScreen.routName: (ctx) => const AllUsersScreen(),
           ProfileScreen.routeName: (ctx) => const ProfileScreen(),
           ProvideBookScreen.routName: (ctx) => const ProvideBookScreen(),
-
-
-
-
         },
       ),
     );

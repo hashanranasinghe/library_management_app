@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/models/models.dart';
 import 'package:library_management_app/models/providebook.dart';
 import 'package:library_management_app/widgets/details_dialog.dart';
@@ -21,6 +21,7 @@ class BookCard extends StatefulWidget {
 
 class _BookCardState extends State<BookCard> {
   String? lateDay;
+  String? punishment;
   @override
   void initState() {
     lateDays();
@@ -36,14 +37,13 @@ class _BookCardState extends State<BookCard> {
             textName: widget.provideBook!.pBookName,
             late: lateDay,
             detailsFunction: () {
-              // DetailsDialog.builtDetailsDialog(
-              //     context,
-              //     widget.provideBook!.pBookImageUrl.toString(),
-              //     widget.provideBook!.pUserName.toString(),
-              //     widget.provideBook!.pBookName.toString(),
-              //     widget.provideBook!.pDate.toString(),
-              //     widget.provideBook!.pReturnDate.toString());
-              lateDays();
+              DetailsDialog.builtDetailsDialog(
+                  context,
+                  widget.provideBook!.pBookImageUrl.toString(),
+                  widget.provideBook!.pUserName.toString(),
+                  widget.provideBook!.pBookName.toString(),
+                  "${widget.provideBook!.pDate?.year}-${widget.provideBook!.pDate?.month}-${widget.provideBook!.pDate?.day}",
+                  "${widget.provideBook!.pReturnDate?.year}-${widget.provideBook!.pReturnDate?.month}-${widget.provideBook!.pReturnDate?.day}");
             },
             deleteFunction: () {
               deleteProvideBook(int.parse(widget.index.toString()));
@@ -74,36 +74,39 @@ class _BookCardState extends State<BookCard> {
         .where(widget.provideBook!.pid.toString())
         .get();
 
-    print(data.docs[int.parse(index)].id.toString());
-
     await FirebaseFirestore.instance
         .collection('users')
         .doc(widget.provideBook!.pid)
         .collection('provideBooks')
-        .doc(data.docs[int.parse(index)].id)
-        .delete();
+        .doc(data.docs[index].id)
+        .delete()
+        .whenComplete(() => Fluttertoast.showToast(
+            msg: 'Delete Successfully', toastLength: Toast.LENGTH_LONG));
   }
 
   void lateDays() {
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
 
-    if (widget.provideBook?.pReturnDate.toString() != null) {
-      var y =
-          int.parse(widget.provideBook!.pReturnDate.toString().substring(0, 4));
-      var m =
-          int.parse(widget.provideBook!.pReturnDate.toString().substring(5, 6));
-      var d =
-          int.parse(widget.provideBook!.pReturnDate.toString().substring(7));
-
-      DateTime r = DateTime.parse(
-          formatDate(DateTime(y, m, d), [yyyy, '-', mm, '-', dd]));
-      var l = date.difference(r).inDays;
+    if (widget.provideBook?.pReturnDate != null) {
+      var l =
+          date.difference(widget.provideBook?.pReturnDate as DateTime).inDays;
       print(date);
-      print(r);
       print(l);
+      print(widget.provideBook?.pReturnDate.toString());
 
       if (l > 0) {
+        var total = 0;
+        for (var i = 0; i <= l; i++) {
+          total = total + 20;
+        }
+        print(total);
+        setState(() {
+          punishment = total.toString();
+
+          lateDay = "Late";
+        });
+
         print("Late");
       } else {
         setState(() {

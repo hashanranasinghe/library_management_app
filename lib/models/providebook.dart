@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProvideBook {
   String? pid;
   String? pUserName;
   String? pBookName;
   String? pBookImageUrl;
-  String? pDate;
-  String? pReturnDate;
+  DateTime? pDate;
+  DateTime? pReturnDate;
 
   ProvideBook({this.pid, this.pUserName, this.pBookName, this.pDate,this.pBookImageUrl,this.pReturnDate});
 
@@ -14,8 +16,8 @@ class ProvideBook {
         pUserName: map['pUserName'],
         pBookName: map['pBookName'],
         pBookImageUrl: map['pBookUrl'],
-        pReturnDate: map['pReturnDate'],
-        pDate: map['pDate']);
+        pReturnDate: (map['pReturnDate'] as Timestamp).toDate() ,
+        pDate: (map['pDate'] as Timestamp).toDate());
   }
 
   Map<String, dynamic> toMap() {

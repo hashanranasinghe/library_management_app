@@ -41,14 +41,11 @@ Future<List<AddBook>> getBookSuggestion(String query) async {
   }).toList();
 }
 
-
-
 class _ProvideBookScreenState extends State<ProvideBookScreen> {
-
   final TextEditingController typeAheadUserController = TextEditingController();
   final TextEditingController typeAheadBookController = TextEditingController();
-  String? datePick;
-  String? returnDatePick;
+  DateTime? datePick;
+  DateTime? returnDatePick;
   DateTime date = DateTime(2022, 12, 24);
   String? id;
   String? name;
@@ -120,6 +117,7 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
             },
           ),
           Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
             child: TextFormField(
               onTap: () async {
                 DateTime? newDate = await showDatePicker(
@@ -127,15 +125,11 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
                     initialDate: date,
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2100));
-                var rDate = new DateTime(date.year, date.month, date.day + 14);
-                print(rDate);
 
                 if (newDate == null) return;
                 setState(() {
-                  datePick =
-                      "${newDate.year.toString()}-${newDate.month.toString()}-${newDate.day.toString()}";
-                  returnDatePick =
-                      "${rDate.year.toString()}-${rDate.month.toString()}-${rDate.day.toString()}";
+
+                  datePick = newDate;
                 });
                 print(newDate);
               },
@@ -162,13 +156,13 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
                   borderSide: BorderSide(color: Colors.red, width: 2.0),
                 ),
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                hintText: datePick,
+                hintText: (datePick == null)? "Date":
+                     "${datePick?.year.toString()}-${datePick?.month.toString()}-${datePick?.day.toString()}",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
           ),
           _buildButton(),
         ],
@@ -179,6 +173,9 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
   Widget _buildButton() {
     return ButtonField(
         function: () {
+          print(datePick);
+          returnDatePick = DateTime(datePick!.year,datePick!.month,datePick!.day + 14);
+          print(returnDatePick);
           provideBook(id, name, selectBook, datePick, imageUrl, returnDatePick);
           provideBookAdmin(
               id, name, selectBook, datePick, imageUrl, returnDatePick);
@@ -186,8 +183,8 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
         text: "Provide");
   }
 
-  Future provideBook(String? uid, String? name, String? bookName, String? date,
-      String? imageUrl, String? returnDate) async {
+  Future provideBook(String? uid, String? name, String? bookName,
+      DateTime? date, String? imageUrl, DateTime? returnDate) async {
     final pBook = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
@@ -212,7 +209,7 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
   }
 
   Future provideBookAdmin(String? uid, String? name, String? bookName,
-      String? date, String? imageUrl, String? returnDate) async {
+      DateTime? date, String? imageUrl, DateTime? returnDate) async {
     final pBook = FirebaseFirestore.instance.collection('provideBooks').doc();
 
     final books = ProvideBook(
@@ -228,5 +225,4 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
 
     await pBook.set(json);
   }
-
 }
