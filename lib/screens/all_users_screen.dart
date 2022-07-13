@@ -12,28 +12,25 @@ class AllUsersScreen extends StatefulWidget {
 }
 
 class _AllUsersScreenState extends State<AllUsersScreen> {
-  Stream<List<CreateAccount>> allUsers(){
-
-    return FirebaseFirestore.instance
-        .collection("users").
-    snapshots().
-    map((snapshot) => snapshot.docs.map((doc) => CreateAccount.fromMap(doc.data())).toList());
-
+  Stream<List<CreateAccount>> allUsers() {
+    return FirebaseFirestore.instance.collection("users").snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => CreateAccount.fromMap(doc.data()))
+            .toList());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<List<CreateAccount>>(
         stream: allUsers(),
-        builder: (context,snapshot){
-          if(snapshot.hasError){
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
             return Text("Something went to wrong");
-          }else if(snapshot.hasData){
+          } else if (snapshot.hasData) {
             final books = snapshot.data!;
-            return ListView(
-                children: books.map(buildBook).toList()
-            );
-          }else{
+            return ListView(children: books.map(buildBook).toList());
+          } else {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -44,6 +41,6 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   }
 
   Widget buildBook(CreateAccount user) => ListTile(
-    title: Text(user.name.toString()),
-  );
+        title: Text(user.name.toString()),
+      );
 }

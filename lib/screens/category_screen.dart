@@ -22,103 +22,106 @@ class _CategoryScreenState extends State<CategoryScreen> {
               children: [
                 CardView(
                     topic: "Action and Adventure",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: 'Action and Adventure',),
+                            builder: (context) => CategoryBooksScreen(
+                              text: 'Action and Adventure',
+                            ),
                           ));
-
                     }),
                 CardView(
                     topic: "Classics",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Classics",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Classics",
+                            ),
                           ));
-
                     }),
-
               ],
             ),
             Row(
               children: [
                 CardView(
                     topic: "Comic Book or Graphic Novel",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Comic Book or Graphic Novel",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Comic Book or Graphic Novel",
+                            ),
                           ));
-
                     }),
                 CardView(
                     topic: "Detective and Mystery",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Detective and Mystery",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Detective and Mystery",
+                            ),
                           ));
-
                     }),
-
               ],
             ),
             Row(
               children: [
                 CardView(
                     topic: "Fantasy",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Fantasy",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Fantasy",
+                            ),
                           ));
-
                     }),
                 CardView(
                     topic: "Historical Fiction",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Historical Fiction",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Historical Fiction",
+                            ),
                           ));
-
                     }),
-
               ],
             ),
             Row(
               children: [
                 CardView(
                     topic: "Horror",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Horror",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Horror",
+                            ),
                           ));
-
                     }),
                 CardView(
                     topic: "Literary Fiction",
-                    function: (){
+                    function: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryBooksScreen(text: "Literary Fiction",),
+                            builder: (context) => CategoryBooksScreen(
+                              text: "Literary Fiction",
+                            ),
                           ));
-
                     }),
-
               ],
             ),
-
           ],
         ),
       ),

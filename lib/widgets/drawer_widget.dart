@@ -35,7 +35,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProvideBooksListScreen(text: "user"),
+                          builder: (context) =>
+                              const ProvideBooksListScreen(text: "user"),
                         ));
                   },
                   icon: Icons.video_collection_outlined,

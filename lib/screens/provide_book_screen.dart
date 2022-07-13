@@ -128,7 +128,6 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
 
                 if (newDate == null) return;
                 setState(() {
-
                   datePick = newDate;
                 });
                 print(newDate);
@@ -156,8 +155,9 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
                   borderSide: BorderSide(color: Colors.red, width: 2.0),
                 ),
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                hintText: (datePick == null)? "Date":
-                     "${datePick?.year.toString()}-${datePick?.month.toString()}-${datePick?.day.toString()}",
+                hintText: (datePick == null)
+                    ? "Date"
+                    : "${datePick?.year.toString()}-${datePick?.month.toString()}-${datePick?.day.toString()}",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -174,7 +174,8 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
     return ButtonField(
         function: () {
           print(datePick);
-          returnDatePick = DateTime(datePick!.year,datePick!.month,datePick!.day + 14);
+          returnDatePick =
+              DateTime(datePick!.year, datePick!.month, datePick!.day + 14);
           print(returnDatePick);
           provideBook(id, name, selectBook, datePick, imageUrl, returnDatePick);
           provideBookAdmin(

@@ -22,7 +22,7 @@ class ListCardField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Card(
-        color: primaryColor,
+        color: late != "Late" ? primaryColor : Colors.red,
         elevation: 8,
         child: Column(
           children: [
@@ -42,33 +42,31 @@ class ListCardField extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    late=="Late"?IconButton(
-                        onPressed: () {
-
-                        },
-                        icon: const Icon(Icons.warning_amber_outlined,
-                          color: Colors.red,
-                        )):Container(
-                      width: 1,
-                    ),
-
-                    IconButton(
-                        onPressed: () {
-                          detailsFunction!();
-                        },
-                        icon: const Icon(
-                          Icons.details_rounded,
-                          color: Colors.white,
-                        )),
-                    IconButton(
-                      onPressed: () {
-                        deleteFunction!();
-                      },
-                      icon: const Icon(
-                        Icons.delete_rounded,
-                        color: Colors.white,
-                      ),
-                    ),
+                    detailsFunction != null
+                        ? IconButton(
+                            onPressed: () {
+                              detailsFunction!();
+                            },
+                            icon: const Icon(
+                              Icons.details_rounded,
+                              color: Colors.white,
+                            ))
+                        : Container(
+                            width: 1,
+                          ),
+                    deleteFunction != null
+                        ? IconButton(
+                            onPressed: () {
+                              deleteFunction!();
+                            },
+                            icon: const Icon(
+                              Icons.delete_rounded,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Container(
+                            width: 1,
+                          )
                   ],
                 ),
               ],

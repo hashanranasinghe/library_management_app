@@ -14,11 +14,10 @@ class ProvideBooksListScreen extends StatefulWidget {
 }
 
 class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
-
-
   late List<Object> _provideBookList;
   bool isLoading = true;
   final _auth = FirebaseAuth.instance;
+  String? change;
 
   @override
   void didChangeDependencies() {
@@ -35,8 +34,10 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
                 itemCount: _provideBookList.length,
                 itemBuilder: (context, index) {
                   return BookCard(
-                      provideBook: _provideBookList[index] as ProvideBook,
-                      index: index.toString());
+                    provideBook: _provideBookList[index] as ProvideBook,
+                    index: index.toString(),
+                    change: change,
+                  );
                 })
             : Center(child: const CircularProgressIndicator()));
   }
@@ -62,9 +63,8 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
         _provideBookList =
             List.from(data.docs.map((doc) => ProvideBook.fromMap(doc)));
         isLoading = false;
+        change ="user";
       });
     }
   }
-
-
 }

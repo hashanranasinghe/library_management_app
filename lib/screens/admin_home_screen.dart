@@ -26,36 +26,36 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   List<Object> _list = [];
 
-
-
   Future getData() async {
     var data = await FirebaseFirestore.instance.collection("books").get();
     setState(() {
       _list = List.from(data.docs.map((doc) => AddBook.fromMap(doc)));
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final video = Provider.of<BookData>(context,listen: false);
+    final video = Provider.of<BookData>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
         actions: [
-          IconButton(onPressed: () async{
-            final SharedPreferences sharedPreferences =
-                await SharedPreferences.getInstance();
-            sharedPreferences.remove('email');
-            Navigator.of(context)
-                .pushReplacementNamed(LoginScreen.routName);
-          }, icon: Icon(Icons.logout_outlined))
+          IconButton(
+              onPressed: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove('email');
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routName);
+              },
+              icon: Icon(Icons.logout_outlined))
         ],
       ),
       body: SingleChildScrollView(
@@ -69,18 +69,15 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "All Books",
                   icon: Icons.book_outlined,
                   function: () {
-
                     print(video.bName);
-                    Navigator.of(context)
-                        .pushNamed(AllBooksScreen.routName);
+                    Navigator.of(context).pushNamed(AllBooksScreen.routName);
                   },
                 ),
                 CardView(
                   topic: "Category",
                   icon: Icons.category_outlined,
                   function: () {
-                    Navigator.of(context)
-                        .pushNamed(CategoryScreen.routName);
+                    Navigator.of(context).pushNamed(CategoryScreen.routName);
                   },
                 )
               ],
@@ -92,8 +89,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "Users",
                   icon: Icons.supervised_user_circle_sharp,
                   function: () {
-                    Navigator.of(context)
-                        .pushNamed(AllUsersScreen.routName);
+                    Navigator.of(context).pushNamed(AllUsersScreen.routName);
                   },
                 ),
                 CardView(
@@ -113,16 +109,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "Profile",
                   icon: Icons.supervised_user_circle_sharp,
                   function: () {
-                    Navigator.of(context)
-                        .pushNamed(ProfileScreen.routeName);
+                    Navigator.of(context).pushNamed(ProfileScreen.routeName);
                   },
                 ),
                 CardView(
                   topic: "Provide book",
                   icon: Icons.supervised_user_circle_sharp,
                   function: () {
-                    Navigator.of(context)
-                        .pushNamed(ProvideBookScreen.routName);
+                    Navigator.of(context).pushNamed(ProvideBookScreen.routName);
                   },
                 ),
               ],
@@ -137,11 +131,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProvideBooksListScreen(text: "admin"),
+                          builder: (context) =>
+                              const ProvideBooksListScreen(text: "admin"),
                         ));
                   },
                 ),
-
               ],
             )
           ],

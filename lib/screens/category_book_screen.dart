@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:library_management_app/models/models.dart';
 
-
 class CategoryBooksScreen extends StatefulWidget {
   final String text;
   const CategoryBooksScreen({Key? key, required this.text}) : super(key: key);
@@ -13,16 +12,13 @@ class CategoryBooksScreen extends StatefulWidget {
 }
 
 class _CategoryBooksScreenState extends State<CategoryBooksScreen> {
-
   Stream<List<AddBook>> allBooks() {
-
-      return FirebaseFirestore.instance
-          .collection("books")
-          .where('bCategory', isEqualTo: widget.text)
-          .snapshots()
-          .map((snapshot) =>
-              snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
-
+    return FirebaseFirestore.instance
+        .collection("books")
+        .where('bCategory', isEqualTo: widget.text)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => AddBook.fromMap(doc.data())).toList());
   }
 
   @override

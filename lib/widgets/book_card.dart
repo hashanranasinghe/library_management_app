@@ -22,6 +22,7 @@ class BookCard extends StatefulWidget {
 class _BookCardState extends State<BookCard> {
   String? lateDay;
   String? punishment;
+  String? days;
   @override
   void initState() {
     lateDays();
@@ -31,29 +32,48 @@ class _BookCardState extends State<BookCard> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.change.toString() != "change"
+    return widget.change.toString() == "change"
         ? ListCardField(
-            imageUrl: widget.provideBook!.pBookImageUrl,
-            textName: widget.provideBook!.pBookName,
-            late: lateDay,
-            detailsFunction: () {
-              DetailsDialog.builtDetailsDialog(
-                  context,
-                  widget.provideBook!.pBookImageUrl.toString(),
-                  widget.provideBook!.pUserName.toString(),
-                  widget.provideBook!.pBookName.toString(),
-                  "${widget.provideBook!.pDate?.year}-${widget.provideBook!.pDate?.month}-${widget.provideBook!.pDate?.day}",
-                  "${widget.provideBook!.pReturnDate?.year}-${widget.provideBook!.pReturnDate?.month}-${widget.provideBook!.pReturnDate?.day}");
-            },
-            deleteFunction: () {
-              deleteProvideBook(int.parse(widget.index.toString()));
-              deleteUserBook(int.parse(widget.index.toString()));
-            },
-          )
-        : ListCardField(
             imageUrl: widget.addBook!.bImageUrl,
             textName: widget.addBook!.bName,
-          );
+          )
+        : widget.change.toString() == "user"
+            ? ListCardField(
+                imageUrl: widget.provideBook!.pBookImageUrl,
+                textName: widget.provideBook!.pBookName,
+                late: lateDay,
+                detailsFunction: () {
+                  DetailsDialog.builtDetailsDialog(
+                      context,
+                      widget.provideBook!.pBookImageUrl.toString(),
+                      widget.provideBook!.pUserName.toString(),
+                      widget.provideBook!.pBookName.toString(),
+                      "${widget.provideBook!.pDate?.year}-${widget.provideBook!.pDate?.month}-${widget.provideBook!.pDate?.day}",
+                      "${widget.provideBook!.pReturnDate?.year}-${widget.provideBook!.pReturnDate?.month}-${widget.provideBook!.pReturnDate?.day}",
+                      days,
+                      punishment);
+                },
+              )
+            : ListCardField(
+                imageUrl: widget.provideBook!.pBookImageUrl,
+                textName: widget.provideBook!.pBookName,
+                late: lateDay,
+                detailsFunction: () {
+                  DetailsDialog.builtDetailsDialog(
+                      context,
+                      widget.provideBook!.pBookImageUrl.toString(),
+                      widget.provideBook!.pUserName.toString(),
+                      widget.provideBook!.pBookName.toString(),
+                      "${widget.provideBook!.pDate?.year}-${widget.provideBook!.pDate?.month}-${widget.provideBook!.pDate?.day}",
+                      "${widget.provideBook!.pReturnDate?.year}-${widget.provideBook!.pReturnDate?.month}-${widget.provideBook!.pReturnDate?.day}",
+                      days,
+                      punishment);
+                },
+                deleteFunction: () {
+                  deleteProvideBook(int.parse(widget.index.toString()));
+                  deleteUserBook(int.parse(widget.index.toString()));
+                },
+              );
   }
 
   Future deleteProvideBook(index) async {
@@ -102,14 +122,16 @@ class _BookCardState extends State<BookCard> {
         }
         print(total);
         setState(() {
+          days = l.toString();
           punishment = total.toString();
-
           lateDay = "Late";
         });
 
         print("Late");
       } else {
+
         setState(() {
+
           lateDay = "You have time";
         });
       }

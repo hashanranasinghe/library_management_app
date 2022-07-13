@@ -5,7 +5,6 @@ import 'package:library_management_app/widgets/book_card.dart';
 import 'package:library_management_app/widgets/drawer_widget.dart';
 import 'package:library_management_app/widgets/topwidget.dart';
 
-
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({Key? key}) : super(key: key);
   static const routName = 'all-books-screen';

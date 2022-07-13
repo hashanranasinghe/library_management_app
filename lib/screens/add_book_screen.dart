@@ -248,7 +248,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
     final destination = 'files/$fileName';
 
-
     task = FirebaseApi.uploadFile(destination, file!);
 
     final snapshot = await task!.whenComplete(() {
@@ -256,14 +255,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
           msg: "Complete", toastLength: Toast.LENGTH_LONG);
     });
     final urlDownload = await snapshot.ref.getDownloadURL();
-    addBookAdmin(
-      bNameController.text,
-      bAuthorController.text,
-      value,
-      bDesController.text,
-      datePick,
-      bCountController.text,
-    urlDownload);
+    addBookAdmin(bNameController.text, bAuthorController.text, value,
+        bDesController.text, datePick, bCountController.text, urlDownload);
     print('Download-Link: $urlDownload');
   }
 
@@ -276,24 +269,22 @@ class _AddBookScreenState extends State<AddBookScreen> {
         ),
       );
 
+  Future addBookAdmin(bName, bAuthorName, bCategory, bDescription, bAddDate,
+      bCount, bImageUrl) async {
+    final docBook = FirebaseFirestore.instance.collection('books').doc();
 
-Future addBookAdmin(bName,bAuthorName,bCategory,bDescription,bAddDate,bCount,bImageUrl) async{
-  final docBook = FirebaseFirestore.instance.collection('books').doc();
+    final books = AddBook(
+        uid: docBook.id,
+        bName: bName,
+        bAuthorName: bAuthorName,
+        bCategory: bCategory,
+        bDescription: bDescription,
+        bAddDate: bAddDate,
+        bCount: bCount,
+        bImageUrl: bImageUrl);
 
-  final books = AddBook(
-    uid: docBook.id,
-    bName: bName,
-    bAuthorName: bAuthorName,
-    bCategory: bCategory,
-    bDescription: bDescription,
-    bAddDate: bAddDate,
-    bCount: bCount,
-    bImageUrl: bImageUrl
-  );
+    final json = books.toMap();
 
-  final json = books.toMap();
-
-  await docBook.set(json);
-
-}
+    await docBook.set(json);
+  }
 }

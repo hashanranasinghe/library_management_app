@@ -8,7 +8,13 @@ class ProvideBook {
   DateTime? pDate;
   DateTime? pReturnDate;
 
-  ProvideBook({this.pid, this.pUserName, this.pBookName, this.pDate,this.pBookImageUrl,this.pReturnDate});
+  ProvideBook(
+      {this.pid,
+      this.pUserName,
+      this.pBookName,
+      this.pDate,
+      this.pBookImageUrl,
+      this.pReturnDate});
 
   factory ProvideBook.fromMap(map) {
     return ProvideBook(
@@ -16,7 +22,7 @@ class ProvideBook {
         pUserName: map['pUserName'],
         pBookName: map['pBookName'],
         pBookImageUrl: map['pBookUrl'],
-        pReturnDate: (map['pReturnDate'] as Timestamp).toDate() ,
+        pReturnDate: (map['pReturnDate'] as Timestamp).toDate(),
         pDate: (map['pDate'] as Timestamp).toDate());
   }
 
@@ -25,7 +31,7 @@ class ProvideBook {
       'pid': pid,
       'pUserName': pUserName,
       'pBookName': pBookName,
-      'pBookUrl' : pBookImageUrl,
+      'pBookUrl': pBookImageUrl,
       'pReturnDate': pReturnDate,
       'pDate': pDate,
     };

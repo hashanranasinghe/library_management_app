@@ -16,10 +16,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-
-
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -29,33 +26,30 @@ class _SplashScreenState extends State<SplashScreen> {
       Timer(const Duration(seconds: 3), () {
         if (finalEmail == null) {
           Navigator.of(context).pushReplacementNamed(LoginScreen.routName);
-        } else if(finalEmail == "test@gmail.com") {
+        } else if (finalEmail == "test@gmail.com") {
           Navigator.of(context).pushReplacementNamed(AdminHomeScreen.routName);
-        }else{
+        } else {
           Navigator.of(context).pushReplacementNamed(AllBooksScreen.routName);
         }
       });
     });
   }
 
-
-
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     var obtainedEmail = sharedPreferences.getString('email');
     setState(() {
       finalEmail = obtainedEmail;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Library")
-        ],
+        children: [Text("Library")],
       ),
     );
   }

@@ -51,9 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextButton(
                   child: const Text('Sign up',
                       style: TextStyle(
-                          color: primaryColor,
-
-                          fontWeight: FontWeight.bold)),
+                          color: primaryColor, fontWeight: FontWeight.bold)),
                   onPressed: () {
                     Navigator.of(context)
                         .pushReplacementNamed(SignupScreen.routName);
@@ -61,8 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ],
             ),
-
-
           ],
         ),
       ),
@@ -86,14 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginButton() {
-    return ButtonField(function: () async{
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString(
-          'email', emailController.text);
-      signIn(emailController.text,
-          passwordController.text);
-    }, text: "Sign In");
+    return ButtonField(
+        function: () async {
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString('email', emailController.text);
+          signIn(emailController.text, passwordController.text);
+        },
+        text: "Sign In");
   }
 
   Future<void> signIn(String email, String password) async {
@@ -102,21 +98,23 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-        Fluttertoast.showToast(msg: "Login Successfully"),
-        if(email=="test@gmail.com"){
-          Navigator.of(context)
-              .pushReplacementNamed(AdminHomeScreen.routName),
-        }else{
-          Navigator.of(context)
-              .pushReplacementNamed(AllBooksScreen.routName),
-        }
-
-      }).catchError((e) {
+                Fluttertoast.showToast(msg: "Login Successfully"),
+                if (email == "test@gmail.com")
+                  {
+                    Navigator.of(context)
+                        .pushReplacementNamed(AdminHomeScreen.routName),
+                  }
+                else
+                  {
+                    Navigator.of(context)
+                        .pushReplacementNamed(AllBooksScreen.routName),
+                  }
+              })
+          .catchError((e) {
         Fluttertoast.showToast(
             msg: 'Incorrect Email or Password.',
             toastLength: Toast.LENGTH_LONG);
       });
     }
   }
-
 }

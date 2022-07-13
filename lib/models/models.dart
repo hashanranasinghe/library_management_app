@@ -42,7 +42,4 @@ class AddBook {
       'bImageUrl': bImageUrl
     };
   }
-
-
-
 }
