@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
         home: const SplashScreen(),
         routes: {
           AdminHomeScreen.routName: (ctx) => const AdminHomeScreen(),
-          AddBookScreen.routName: (ctx) => const AddBookScreen(),
           AllBooksScreen.routName: (ctx) => const AllBooksScreen(),
           SignupScreen.routName: (ctx) => const SignupScreen(),
           LoginScreen.routName: (ctx) => const LoginScreen(),

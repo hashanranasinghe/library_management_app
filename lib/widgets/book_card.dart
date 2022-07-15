@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/models/models.dart';
 import 'package:library_management_app/models/providebook.dart';
+import 'package:library_management_app/screens/add_book_screen.dart';
 import 'package:library_management_app/widgets/details_dialog.dart';
 import 'package:library_management_app/widgets/list_card_field.dart';
 
@@ -36,6 +37,15 @@ class _BookCardState extends State<BookCard> {
         ? ListCardField(
             imageUrl: widget.addBook!.bImageUrl,
             textName: widget.addBook!.bName,
+      detailsFunction: (){
+              print(widget.addBook!.uid);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    AddBookScreen(text: widget.addBook!.uid.toString()),
+                  ));
+      },
           )
         : widget.change.toString() == "user"
             ? ListCardField(

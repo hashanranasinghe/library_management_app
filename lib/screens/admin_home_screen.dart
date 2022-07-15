@@ -96,8 +96,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "Add Book",
                   icon: Icons.add_box_outlined,
                   function: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(AddBookScreen.routName);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                          AddBookScreen(text: "user"),
+                        ));
                   },
                 )
               ],

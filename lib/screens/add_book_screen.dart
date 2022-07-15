@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/api/constant.dart';
 import 'package:library_management_app/api/firebase_api.dart';
 import 'package:library_management_app/models/models.dart';
+import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:path/path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,24 @@ import 'package:library_management_app/api/validator.dart';
 import 'package:library_management_app/widgets/button.dart';
 
 class AddBookScreen extends StatefulWidget {
-  const AddBookScreen({Key? key}) : super(key: key);
-  static const routName = 'add-book-screen';
+  String text;
+  AddBookScreen({Key? key, required this.text}) : super(key: key);
 
   @override
   State<AddBookScreen> createState() => _AddBookScreenState();
 }
 
 class _AddBookScreenState extends State<AddBookScreen> {
+  @override
+  void initState() {
+    if (widget.text != "user") {
+      getCurrentBook();
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
+  final bookCollection = FirebaseFirestore.instance.collection('books');
   File? file;
   Uint8List? bytes;
   String? fileName;
@@ -40,6 +51,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
   ];
   String? value;
 
+  String detailBName = "";
+  String detailBAuthor = "";
+  String detailBDes = "";
+  String detailBCount = "";
+  String detailBCategory = "";
+  String? detailImageUrl;
+
   TextEditingController bNameController = TextEditingController();
   TextEditingController bAuthorController = TextEditingController();
   TextEditingController bDesController = TextEditingController();
@@ -49,7 +67,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
   Widget build(BuildContext context) {
     setState(() {
       fileName = file != null ? basename(file!.path) : 'No File Selected';
-      datePick == null ? datePick = "Adding Date" : datePick;
+      if (datePick == null && widget.text == "user") {
+        datePick = "Adding Date";
+      } else if (datePick == null && widget.text != "user") {
+        datePick = "Updating Date";
+      } else {
+        datePick;
+      }
     });
     return Scaffold(
       body: SingleChildScrollView(
@@ -58,10 +82,15 @@ class _AddBookScreenState extends State<AddBookScreen> {
           children: [
             Padding(
                 padding: EdgeInsets.all(20),
-                child: const Text(
-                  "Add Book",
-                  style: TextStyle(fontSize: 20),
-                )),
+                child: widget.text == "user"
+                    ? const Text(
+                        "Add Book",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    : const Text(
+                        "Update Book",
+                        style: TextStyle(fontSize: 20),
+                      )),
             _buildBName(),
             _buildBAuthorName(),
             _buildBDes(),
@@ -133,9 +162,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   onChanged: (value) {
                     setState(() {
                       this.value = value;
+                      detailBCategory=value.toString();
                     });
                   },
-                  value: value,
+                  value: detailBCategory == "" ? value : detailBCategory,
                 ),
               ),
             ),
@@ -151,7 +181,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     width: double.infinity,
                     child: Center(
                       child: Text(
-                        'Select video',
+                        'Select Book Image',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
@@ -186,7 +216,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildBName() {
     return InputField(
-      controller: bNameController,
+      controller: detailBName == "" ? bNameController : bNameController
+        ..text = detailBName,
       text: 'Book Name',
       textInputType: TextInputType.name,
       function: Validator.nameValidate,
@@ -195,7 +226,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildBAuthorName() {
     return InputField(
-      controller: bAuthorController,
+      controller: detailBAuthor == "" ? bAuthorController : bAuthorController
+        ..text = detailBAuthor,
       text: 'Author Name',
       textInputType: TextInputType.name,
       function: Validator.nameValidate,
@@ -204,7 +236,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildBDes() {
     return InputField(
-      controller: bDesController,
+      controller: detailBDes == "" ? bDesController : bDesController
+        ..text = detailBDes,
       text: 'Description',
       textInputType: TextInputType.text,
       function: Validator.nameValidate,
@@ -213,7 +246,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildBCount() {
     return InputField(
-      controller: bCountController,
+      controller: detailBCount == "" ? bCountController : bCountController
+        ..text = detailBCount,
       text: 'Count',
       textInputType: TextInputType.number,
       function: Validator.nameValidate,
@@ -222,9 +256,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildButton(context) {
     return ButtonField(
-      text: 'Add',
+      text: widget.text == "user"?'Add':"Update",
       function: () {
-        uploadFile(context);
+        if(widget.text != "user"){
+          updateBook(context);
+        }else{
+          uploadFile(context);
+        }
       },
     );
   }
@@ -286,5 +324,41 @@ class _AddBookScreenState extends State<AddBookScreen> {
     final json = books.toMap();
 
     await docBook.set(json);
+  }
+
+  Future getCurrentBook() async {
+    DocumentSnapshot documentSnapshot =
+        await bookCollection.doc(widget.text).get();
+    String bName = documentSnapshot.get('bName');
+    String bAuthor = documentSnapshot.get('bAuthorName');
+    String bDescription = documentSnapshot.get('bDescription');
+    String bCount = documentSnapshot.get('bCount');
+    String bCategory = documentSnapshot.get('bCategory');
+    String bImageUrl = documentSnapshot.get('bImageUrl');
+
+    setState(() {
+      detailBName = bName;
+      detailBAuthor = bAuthor;
+      detailBDes = bDescription;
+      detailBCount = bCount;
+      detailBCategory = bCategory;
+      detailImageUrl = bImageUrl;
+    });
+  }
+
+  Future updateBook(BuildContext context) async {
+    return await bookCollection.doc(widget.text).set({
+      "uid": widget.text,
+      'bName': bNameController.text,
+      'bAuthorName': bAuthorController.text,
+      'bDescription': bDesController.text,
+      'bCount': bCountController.text,
+      'bCategory': detailBCategory,
+      'bImageUrl': detailImageUrl,
+      'bAddDate': datePick
+    }).whenComplete(() => Fluttertoast.showToast(msg: "updated successfully.")
+        .whenComplete(() => Navigator.of(context)
+        .pushReplacementNamed(AllBooksScreen.routName)));
+    // print(detailBCategory);
   }
 }
