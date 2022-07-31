@@ -120,7 +120,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "Provide book",
                   icon: Icons.supervised_user_circle_sharp,
                   function: () {
-                    Navigator.of(context).pushNamed(ProvideBookScreen.routName);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProvideBookScreen(
+                            text: 'add',
+                          ),
+                        ));
                   },
                 ),
               ],

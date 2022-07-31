@@ -60,11 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )),
           isLoading == true
               ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 160,
-                    ),
                     Text(
                       'My Profile',
                       style: TextStyle(
@@ -140,6 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildName() {
     return InputField(
         text: 'Full Name',
+        iconData: Icons.face,
         function: Validator.nameValidate,
         controller: nameController..text = detailName!,
         textInputType: TextInputType.name);
@@ -147,6 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildEmail() {
     return InputField(
+      iconData: Icons.email_rounded,
       controller: emailController..text = detailEmail!,
       text: 'User email',
       detail: detailEmail,
@@ -158,6 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildAge() {
     return InputField(
       controller: ageController..text = detailAge!,
+      iconData: Icons.calendar_today,
       text: 'Age',
       detail: detailAge,
       textInputType: TextInputType.number,
@@ -167,6 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildPhoneNum() {
     return InputField(
+      iconData: Icons.phone,
       controller: phoneNumberController..text = detailPhoneNum!,
       text: 'Phone Number',
       detail: detailPhoneNum,
@@ -177,6 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAddress() {
     return InputField(
+      iconData: Icons.home,
       controller: addressController..text = detailAddress!,
       text: 'Address',
       detail: detailAddress,
@@ -187,6 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildIdNum() {
     return InputField(
+      iconData: Icons.numbers_outlined,
       controller: idNumberController..text = detailIdNum!,
       text: 'Id Number',
       detail: detailIdNum,

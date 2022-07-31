@@ -33,7 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Welcome back!"),
+            Text("Welcome back!",style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: primaryColor
+            ),),
+            SizedBox(height: 50,),
             _buildEmail(),
             _buildPassword(),
             _buildLoginButton(),
@@ -43,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account ?",
+                const Text("Don't have an account ?",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'InriaSans',
@@ -67,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildEmail() {
     return InputField(
+        iconData: Icons.email_rounded,
         controller: emailController,
         textInputType: TextInputType.emailAddress,
         text: "Email",

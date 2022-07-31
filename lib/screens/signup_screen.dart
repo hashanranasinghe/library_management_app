@@ -35,36 +35,63 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(20),
-                    child: const Text(
-                      "Create Your Account",
-                      style: TextStyle(fontSize: 20),
-                    )),
-              ],
-            ),
-            Form(
-              key: _form,
-              child: Column(
-                children: [
-                  _buildName(),
-                  _buildAge(),
-                  _buildPhoneNumber(),
-                  _buildAddress(),
-                  _buildId(),
-                  _buildEmail(),
-                  _buildPassword(),
-                  _buildConfirmPassword(),
-                  _buildSignupButton()
-                ],
-              ),
-            )
-          ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                  padding: EdgeInsets.all(20),
+                  child: const Text(
+                    "Create Your Account",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor),
+                  )),
+              Form(
+                key: _form,
+                child: Column(
+                  children: [
+                    _buildName(),
+                    _buildAge(),
+                    _buildPhoneNumber(),
+                    _buildAddress(),
+                    _buildId(),
+                    _buildEmail(),
+                    _buildPassword(),
+                    _buildConfirmPassword(),
+                    _buildSignupButton(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account ?",
+                          style: TextStyle(
+                            fontFamily: 'InriaSans',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextButton(
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(LoginScreen.routName);
+                          },
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -72,6 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildName() {
     return InputField(
+        iconData: Icons.face,
         controller: nameController,
         textInputType: TextInputType.name,
         text: "Full Name",
@@ -80,6 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildAge() {
     return InputField(
+      iconData: Icons.calendar_today,
       controller: ageController,
       textInputType: TextInputType.number,
       text: "Age",
@@ -89,6 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildPhoneNumber() {
     return InputField(
+        iconData: Icons.phone,
         controller: phoneNumberController,
         textInputType: TextInputType.number,
         text: "Phone Number",
@@ -97,6 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildAddress() {
     return InputField(
+        iconData: Icons.home,
         controller: addressController,
         textInputType: TextInputType.streetAddress,
         text: "Address",
@@ -105,6 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildId() {
     return InputField(
+        iconData: Icons.numbers_outlined,
         controller: idNumberController,
         textInputType: TextInputType.number,
         text: "Id Number",
@@ -113,6 +145,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildEmail() {
     return InputField(
+        iconData: Icons.email_rounded,
         controller: emailController,
         textInputType: TextInputType.emailAddress,
         text: "Email",
@@ -141,17 +174,23 @@ class _SignupScreenState extends State<SignupScreen> {
         textAlign: TextAlign.left,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(5),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
-          ),
+          filled: true,
+          fillColor: Color(0xFFE3E3E3FF),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: BorderSide(color: Color(0xFFCE0326), width: 2.0),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
           ),
           hintStyle: TextStyle(fontWeight: FontWeight.bold),
           hintText: 'Confirm Password',

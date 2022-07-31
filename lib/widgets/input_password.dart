@@ -20,6 +20,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
       child: TextFormField(
         controller: widget.textEditingController,
         textInputAction: TextInputAction.done,
@@ -30,17 +31,23 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
         textAlign: TextAlign.left,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(5),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
-          ),
+          filled: true,
+          fillColor: Color(0xFFE3E3E3FF),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black, width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: BorderSide(color: Color(0xFFCE0326), width: 2.0),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
           ),
           hintStyle: TextStyle(fontWeight: FontWeight.bold),
           hintText: widget.text,
@@ -61,7 +68,6 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
           ),
         ),
       ),
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 40),
     );
   }
 }

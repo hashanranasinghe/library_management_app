@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:library_management_app/models/models.dart';
 import 'package:library_management_app/models/providebook.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
+import 'package:library_management_app/screens/provide_book_screen.dart';
 import 'package:library_management_app/widgets/details_dialog.dart';
 import 'package:library_management_app/widgets/list_card_field.dart';
 
@@ -24,6 +25,7 @@ class _BookCardState extends State<BookCard> {
   String? lateDay;
   String? punishment;
   String? days;
+  String? docId;
   @override
   void initState() {
     lateDays();
@@ -46,6 +48,7 @@ class _BookCardState extends State<BookCard> {
                     AddBookScreen(text: widget.addBook!.uid.toString()),
                   ));
       },
+
           )
         : widget.change.toString() == "user"
             ? ListCardField(
@@ -83,6 +86,27 @@ class _BookCardState extends State<BookCard> {
                   deleteProvideBook(int.parse(widget.index.toString()));
                   deleteUserBook(int.parse(widget.index.toString()));
                 },
+      updateFunction: () async{
+        FirebaseFirestore.instance
+            .collection('provideBooks')
+            .where('pid', isEqualTo: widget.provideBook!.pid)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            print(element.id);
+            setState((){
+              docId = element.id;
+            });
+          }
+        });
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  ProvideBookScreen(text: docId),
+            ));
+      },
               );
   }
 

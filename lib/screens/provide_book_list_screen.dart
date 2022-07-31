@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:library_management_app/models/providebook.dart';
 import 'package:library_management_app/widgets/book_card.dart';
+import 'package:library_management_app/widgets/drawer_widget.dart';
+import 'package:library_management_app/widgets/topwidget.dart';
 
 class ProvideBooksListScreen extends StatefulWidget {
   const ProvideBooksListScreen({Key? key, required this.text})
@@ -28,18 +30,36 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-        body: isLoading == false
-            ? ListView.builder(
-                itemCount: _provideBookList.length,
-                itemBuilder: (context, index) {
-                  return BookCard(
-                    provideBook: _provideBookList[index] as ProvideBook,
-                    index: index.toString(),
-                    change: change,
-                  );
-                })
-            : Center(child: const CircularProgressIndicator()));
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        drawer: DrawerWidget(
+          scaffoldKey: _scaffoldKey,
+        ),
+        body: Column(
+          children: [
+            TopScreenWidget(
+                scaffoldKey: _scaffoldKey,
+                topLeft: SizedBox(
+                  height: 50,
+                  width: 50,
+                )),
+            isLoading == false
+                ? ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: _provideBookList.length,
+                    itemBuilder: (context, index) {
+                      return BookCard(
+                        provideBook: _provideBookList[index] as ProvideBook,
+                        index: index.toString(),
+                        change: change,
+                      );
+                    })
+                : Center(child: const CircularProgressIndicator())
+          ],
+        ));
   }
 
   Future getProvideBookList() async {
@@ -63,7 +83,7 @@ class _ProvideBooksListScreenState extends State<ProvideBooksListScreen> {
         _provideBookList =
             List.from(data.docs.map((doc) => ProvideBook.fromMap(doc)));
         isLoading = false;
-        change ="user";
+        change = "user";
       });
     }
   }

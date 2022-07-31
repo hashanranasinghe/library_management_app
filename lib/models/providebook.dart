@@ -33,7 +33,7 @@ class ProvideBook {
       'pBookName': pBookName,
       'pBookUrl': pBookImageUrl,
       'pReturnDate': pReturnDate,
-      'pDate': pDate,
+      'pDate': pDate ,
     };
   }
 }

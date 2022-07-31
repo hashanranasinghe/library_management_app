@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (ctx) => BookData())],
       child: MaterialApp(
+        theme: ThemeData(fontFamily: "Poppins"),
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
         routes: {
@@ -38,7 +39,6 @@ class MyApp extends StatelessWidget {
           SplashScreen.routName: (ctx) => const SplashScreen(),
           AllUsersScreen.routName: (ctx) => const AllUsersScreen(),
           ProfileScreen.routeName: (ctx) => const ProfileScreen(),
-          ProvideBookScreen.routName: (ctx) => const ProvideBookScreen(),
         },
       ),
     );

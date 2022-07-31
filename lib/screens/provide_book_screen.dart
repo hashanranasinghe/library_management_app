@@ -9,8 +9,8 @@ import 'package:library_management_app/models/providebook.dart';
 import 'package:library_management_app/widgets/button.dart';
 
 class ProvideBookScreen extends StatefulWidget {
-  const ProvideBookScreen({Key? key}) : super(key: key);
-  static const routName = 'provide-book-screen';
+  String? text;
+  ProvideBookScreen({Key? key, required this.text}) : super(key: key);
 
   @override
   State<ProvideBookScreen> createState() => _ProvideBookScreenState();
@@ -42,6 +42,16 @@ Future<List<AddBook>> getBookSuggestion(String query) async {
 }
 
 class _ProvideBookScreenState extends State<ProvideBookScreen> {
+  @override
+  void initState() {
+    if (widget.text != "add") {
+      getCurrentProvideBook();
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
+  final bookCollection = FirebaseFirestore.instance.collection('provideBooks');
   final TextEditingController typeAheadUserController = TextEditingController();
   final TextEditingController typeAheadBookController = TextEditingController();
   DateTime? datePick;
@@ -51,6 +61,12 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
   String? name;
   String? imageUrl;
   String? selectBook;
+
+  String detailUserName = "";
+  String detailBookName = "";
+  String? detailImageUrl;
+  String? detailSelectBook;
+  String? detailDate;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +78,12 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
             height: 50,
           ),
           TypeAheadField<CreateAccount?>(
-            textFieldConfiguration:
-                TextFieldConfiguration(controller: typeAheadUserController),
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: detailUserName == ""
+                  ? typeAheadUserController
+                  : typeAheadUserController
+                ..text = detailUserName,
+            ),
             suggestionsCallback: getUserSuggestion,
             itemBuilder: (context, CreateAccount? suggestion) {
               final user = suggestion!;
@@ -84,14 +104,18 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
               setState(() {
                 id = user.id.toString();
                 name = user.name.toString();
+                detailUserName = user.name.toString();
               });
 
-              typeAheadUserController.text = user.name.toString();
+              typeAheadUserController.text = detailUserName;
             },
           ),
           TypeAheadField<AddBook?>(
-            textFieldConfiguration:
-                TextFieldConfiguration(controller: typeAheadBookController),
+            textFieldConfiguration: TextFieldConfiguration(
+                controller: detailBookName == ""
+                    ? typeAheadBookController
+                    : typeAheadBookController
+                  ..text = detailBookName),
             suggestionsCallback: getBookSuggestion,
             itemBuilder: (context, AddBook? suggestion) {
               final book = suggestion!;
@@ -112,8 +136,9 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
               setState(() {
                 selectBook = book.bName.toString();
                 imageUrl = book.bImageUrl.toString();
+                detailBookName = book.bName.toString();
               });
-              typeAheadBookController.text = book.bName.toString();
+              typeAheadBookController.text = detailBookName;
             },
           ),
           Container(
@@ -225,5 +250,24 @@ class _ProvideBookScreenState extends State<ProvideBookScreen> {
     final json = books.toMap();
 
     await pBook.set(json);
+  }
+
+  Future getCurrentProvideBook() async {
+    print(widget.text);
+    DocumentSnapshot documentSnapshot =
+        await bookCollection.doc(widget.text).get();
+    String? bPUser = documentSnapshot.get('pUserName');
+    String bPName = documentSnapshot.get('pBookName');
+    // String bPDate = documentSnapshot.get('pDate');
+    // String bPReturnDate = documentSnapshot.get('pReturnDate');
+    String bPImageUrl = documentSnapshot.get('bImageUrl');
+
+    setState(() {
+      detailUserName = bPUser!;
+      detailBookName = bPName;
+      print(detailUserName);
+      // detailDate = bPDate;
+      // detailImageUrl = bPImageUrl;
+    });
   }
 }

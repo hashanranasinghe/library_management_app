@@ -162,7 +162,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   onChanged: (value) {
                     setState(() {
                       this.value = value;
-                      detailBCategory=value.toString();
+                      detailBCategory = value.toString();
                     });
                   },
                   value: detailBCategory == "" ? value : detailBCategory,
@@ -256,11 +256,11 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Widget _buildButton(context) {
     return ButtonField(
-      text: widget.text == "user"?'Add':"Update",
+      text: widget.text == "user" ? 'Add' : "Update",
       function: () {
-        if(widget.text != "user"){
+        if (widget.text != "user") {
           updateBook(context);
-        }else{
+        } else {
           uploadFile(context);
         }
       },
@@ -358,7 +358,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
       'bAddDate': datePick
     }).whenComplete(() => Fluttertoast.showToast(msg: "updated successfully.")
         .whenComplete(() => Navigator.of(context)
-        .pushReplacementNamed(AllBooksScreen.routName)));
+            .pushReplacementNamed(AllBooksScreen.routName)));
     // print(detailBCategory);
   }
 }
