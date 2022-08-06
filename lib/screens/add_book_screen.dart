@@ -81,14 +81,16 @@ class _AddBookScreenState extends State<AddBookScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-                padding: EdgeInsets.all(20),
+                padding:
+                    EdgeInsets.only(top: 80, left: 20, right: 20, bottom: 20),
                 child: widget.text == "user"
                     ? const Text(
-                        "Add Book",
-                        style: TextStyle(fontSize: 20),
+                        "ADD BOOK",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       )
                     : const Text(
-                        "Update Book",
+                        "UPDATE BOOK",
                         style: TextStyle(fontSize: 20),
                       )),
             _buildBName(),
@@ -117,18 +119,23 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   prefix: Padding(
                     padding: EdgeInsets.only(left: 10),
                   ),
+                  filled: true,
+                  fillColor: Color(0xFFE3E3E3FF),
                   contentPadding: const EdgeInsets.all(5),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide:
+                        BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide:
+                        BorderSide(color: Color(0xFFE3E3E3FF), width: 1.0),
                   ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
+                    borderSide:
+                        BorderSide(color: Color(0xFFCE0326), width: 2.0),
                   ),
                   hintStyle: TextStyle(fontWeight: FontWeight.bold),
                   hintText: datePick,
@@ -143,18 +150,17 @@ class _AddBookScreenState extends State<AddBookScreen> {
               height: 50,
               child: Container(
                 padding: const EdgeInsets.only(left: 12),
-                width: 315,
+                width: 340,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(width: 2, color: Colors.black),
-                  color: Colors.white,
+                  color: Color(0xFFE3E3E3FF),
                 ),
                 child: DropdownButton<String>(
                   underline: Container(color: Colors.transparent),
                   hint: Text(
                     'Select Category',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
                   ),

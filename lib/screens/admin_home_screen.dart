@@ -2,18 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_management_app/models/models.dart';
-import 'package:library_management_app/models/provider.dart';
 import 'package:library_management_app/screens/add_book_screen.dart';
-import 'package:library_management_app/screens/all_books_screen.dart';
 import 'package:library_management_app/screens/all_users_screen.dart';
 import 'package:library_management_app/screens/category_screen.dart';
-import 'package:library_management_app/screens/loginscreen.dart';
 import 'package:library_management_app/screens/profile_screen.dart';
 import 'package:library_management_app/screens/provide_book_list_screen.dart';
 import 'package:library_management_app/screens/provide_book_screen.dart';
+import 'package:library_management_app/widgets/bottom_navigationbar.dart';
 import 'package:library_management_app/widgets/card.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
@@ -41,23 +37,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final video = Provider.of<BookData>(context, listen: false);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove('email');
-                Navigator.of(context)
-                    .pushReplacementNamed(LoginScreen.routName);
-              },
-              icon: Icon(Icons.logout_outlined))
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -69,8 +49,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   topic: "All Books",
                   icon: Icons.book_outlined,
                   function: () {
-                    print(video.bName);
-                    Navigator.of(context).pushNamed(AllBooksScreen.routName);
+                    Navigator.of(context).pushNamed(BottomNavigation.routName);
                   },
                 ),
                 CardView(
@@ -99,8 +78,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                          AddBookScreen(text: "user"),
+                          builder: (context) => AddBookScreen(text: "user"),
                         ));
                   },
                 )

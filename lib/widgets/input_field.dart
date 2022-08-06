@@ -16,7 +16,8 @@ class InputField extends StatelessWidget {
     this.text,
     required this.textInputType,
     this.function,
-    this.detail, this.iconData,
+    this.detail,
+    this.iconData,
   }) : super(key: key);
 
   @override
@@ -31,7 +32,12 @@ class InputField extends StatelessWidget {
         },
         textAlign: TextAlign.left,
         decoration: InputDecoration(
-          prefixIcon: Icon(iconData,color: primaryColor,),
+          prefixIcon: iconData != null
+              ? Icon(
+                  iconData,
+                  color: primaryColor,
+                )
+              : null,
           filled: true,
           fillColor: Color(0xFFE3E3E3FF),
           focusedBorder: OutlineInputBorder(
